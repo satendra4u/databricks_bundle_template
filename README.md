@@ -22,7 +22,7 @@ This repository contains a custom Databricks Asset Bundle template. It follows t
 1. Ensure this repo is accessible to your users (public or they have access).
 2. Users run:
    ```bash
-   databricks bundle init https://github.com/<org>/<repo>.git
+   databricks bundle init https://github.com/satendra4u/databricks_bundle_template.git
    ```
    If the schema is in a subfolder, use `--template-dir`.
 
