@@ -1,0 +1,186 @@
+bundle:
+  name: my-ml-project
+
+artifacts:
+  default:
+    path: .
+    build: "pip install -r requirements.txt -t ./dist && echo built"
+
+variables:
+  project_name:
+    default: my_ml_project
+  serving_endpoint_name:
+    default: ${var.project_name}-endpoint
+  model_name:
+    default: ${var.project_name}_model
+  cluster_policy_restricted:
+    default: POLICY_ID_PLACEHOLDER
+
+# ----- Targets (envs) -----
+targets:
+  dev:
+    workspace:
+      host: https://your-workspace.cloud.databricks.com
+    default: true
+    permissions:
+      - level: CAN_VIEW
+        group_name: ds-dev
+      - level: CAN_MANAGE
+        group_name: mlops-dev
+
+  stg:
+    workspace:
+      host: https://your-workspace.cloud.databricks.com
+    permissions:
+      - level: CAN_VIEW
+        group_name: ds-stg
+      - level: CAN_MANAGE
+        group_name: mlops-stg
+
+  prod:
+    workspace:
+      host: https://your-workspace.cloud.databricks.com
+    permissions:
+      - level: CAN_VIEW
+        group_name: readers
+      - level: CAN_MANAGE
+        group_name: mlops-prod
+
+# ----- Shared Resources -----
+resources:
+  registered_models:
+    my_ml_project_model:
+      name: ${var.model_name}
+      comment: "Segmentation model - UC backed"
+
+  jobs:
+    my_ml_project_01_preprocess:
+      name: ${var.project_name}-01-preprocess
+      tasks:
+        - task_key: preprocess
+          python_wheel_task:
+            package_name: ds
+            entry_point: preprocess
+          libraries:
+            - whl: dist
+          job_cluster_key: jc_gpu_cluster
+      job_clusters:
+        - job_cluster_key: jc_gpu_cluster
+          new_cluster:
+            spark_version: 14.3.x-gpu-ml-scala2.12
+            node_type_id: g4dn.xlarge
+            num_workers: 0
+            data_security_mode: SINGLE_USER
+            runtime_engine: STANDARD
+            
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: local[*]
+            custom_tags:
+              ResourceClass: SingleNode
+            
+
+    my_ml_project_02_train:
+      name: ${var.project_name}-02-train
+      tasks:
+        - task_key: train
+          python_wheel_task:
+            package_name: ds
+            entry_point: train
+          libraries:
+            - whl: dist
+          job_cluster_key: jc_gpu_cluster
+      job_clusters:
+        - job_cluster_key: jc_gpu_cluster
+          new_cluster:
+            spark_version: 14.3.x-gpu-ml-scala2.12
+            node_type_id: g4dn.xlarge
+            num_workers: 0
+            data_security_mode: SINGLE_USER
+            
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: local[*]
+            custom_tags:
+              ResourceClass: SingleNode
+            
+
+    my_ml_project_03_register:
+      name: ${var.project_name}-03-register
+      tasks:
+        - task_key: register
+          python_wheel_task:
+            package_name: ds
+            entry_point: register
+          libraries:
+            - whl: dist
+          job_cluster_key: jc_standard_cluster
+      job_clusters:
+        - job_cluster_key: jc_standard_cluster
+          new_cluster:
+            spark_version: 14.3.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 0
+            data_security_mode: SINGLE_USER
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: local[*]
+            custom_tags:
+              ResourceClass: SingleNode
+
+    my_ml_project_04_deploy_serving:
+      name: ${var.project_name}-04-deploy-serving
+      tasks:
+        - task_key: deploy_serving
+          python_wheel_task:
+            package_name: ds
+            entry_point: deploy_serving
+          libraries:
+            - whl: dist
+          job_cluster_key: jc_standard_cluster
+      job_clusters:
+        - job_cluster_key: jc_standard_cluster
+          new_cluster:
+            spark_version: 14.3.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 0
+            data_security_mode: SINGLE_USER
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: local[*]
+            custom_tags:
+              ResourceClass: SingleNode
+
+    my_ml_project_05_batch_inference:
+      name: ${var.project_name}-05-batch-inference
+      tasks:
+        - task_key: batch_inference
+          notebook_task:
+            notebook_path: /notebooks/04_batch_inference.ipynb
+          job_cluster_key: jc_gpu_cluster
+      job_clusters:
+        - job_cluster_key: jc_gpu_cluster
+          new_cluster:
+            spark_version: 14.3.x-gpu-ml-scala2.12
+            node_type_id: g4dn.xlarge
+            num_workers: 0
+            data_security_mode: SINGLE_USER
+            
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: local[*]
+            custom_tags:
+              ResourceClass: SingleNode
+            
+
+  model_serving_endpoints:
+    my_ml_project_endpoint:
+      name: ${var.serving_endpoint_name}
+      config:
+        served_models:
+          - name: ${var.model_name}
+            model_name: ${var.model_name}
+            model_version: "1"
+            scale_to_zero_enabled: true
+            workload_size: "Medium"
+            workload_type: "GPU_MEDIUM"
