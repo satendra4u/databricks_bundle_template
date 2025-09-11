@@ -1,0 +1,17 @@
+# Job: Deploy Serving Endpoint
+resources:
+  jobs:
+    job_deploy_serving:
+      name: {{.project_name}}_job_deploy_serving
+      tasks:
+        - task_key: deploy_serving
+          python_wheel_task:
+            # If packaging as wheel later; for now use notebook_task alternative below.
+            package_name: ds
+            entry_point: deploy_serving
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12
