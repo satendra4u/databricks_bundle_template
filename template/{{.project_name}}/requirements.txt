@@ -1,0 +1,6 @@
+# Python dependencies for the project
+pyspark>=3.5.0
+mlflow>=2.14.0
+pandas>=2.2.0
+scikit-learn>=1.5.0
+numpy>=1.26.0
