@@ -1,0 +1,7 @@
+{
+  "name": "{{.project_name}}_serving_serverless_policy",
+  "description": "Serverless-friendly serving policy for {{.project_name}}",
+  "policy_family_definition_overrides": {
+    "require_workload_type": "SERVERLESS"
+  }
+}
