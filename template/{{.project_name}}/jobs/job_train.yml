@@ -1,0 +1,15 @@
+# Job: Train
+resources:
+  jobs:
+    job_train:
+      name: {{.project_name}}_job_train
+      tasks:
+        - task_key: train_notebook
+          notebook_task:
+            notebook_path: ../notebooks/02_train.py
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12
