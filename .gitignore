@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+.env.*
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Databricks/CLI
+.databricks/
+.databricks-token*
+# If you generate profiles or temp auth files
+**/dab_profile.json
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
