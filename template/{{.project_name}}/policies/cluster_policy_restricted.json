@@ -1,0 +1,10 @@
+{
+  "definition": {
+    "spark_version": {"type": "fixed", "value": "13.3.x-scala2.12"},
+    "node_type_id": {"type": "fixed", "value": "i3.xlarge"},
+    "num_workers": {"type": "range", "minValue": 1, "maxValue": 4, "defaultValue": 1},
+    "autotermination_minutes": {"type": "fixed", "value": 60}
+  },
+  "description": "Restricted cluster policy for {{.project_name}}",
+  "name": "{{.project_name}}_restricted_policy"
+}
