@@ -2,6 +2,11 @@
 
 This repository contains a custom Databricks Asset Bundle template. It follows the official template schema and uses Go templating so you can initialize new projects with a consistent structure.
 
+This repo now includes multiple templates you can initialize via the `--template-dir` flag:
+- `.` (root): AI Model bundle template
+- `ai_agent_template`: AI Agent bundle template
+- `ai_tools_template`: AI Tools bundle template
+
 ## Contents
 - `databricks_template_schema.json`: Template schema defining prompts and messages.
 - `template/{{.project_name}}/`: Folder that mirrors the structure of the generated bundle.
@@ -22,9 +27,16 @@ This repository contains a custom Databricks Asset Bundle template. It follows t
 1. Ensure this repo is accessible to your users (public or they have access).
 2. Users run:
    ```bash
+   # AI Model template (root)
    databricks bundle init https://github.com/satendra4u/databricks_bundle_template.git
+
+   # AI Agent template
+   databricks bundle init https://github.com/satendra4u/databricks_bundle_template.git --template-dir ai_agent_template
+
+   # AI Tools template
+   databricks bundle init https://github.com/satendra4u/databricks_bundle_template.git --template-dir ai_tools_template
    ```
-   If the schema is in a subfolder, use `--template-dir`.
+   If the schema is in a subfolder, use `--template-dir` (as above for agent/tools).
 
 3. When prompted, enter the project name (e.g., `my_project`). The CLI will generate:
    ```
