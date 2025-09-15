@@ -1,0 +1,8 @@
+# Python dependencies for the AI Tools bundle
+pyspark>=3.5.0
+mlflow>=2.14.0
+pandas>=2.2.0
+numpy>=1.26.0
+# Databricks SDK for Serving APIs
+databricks-sdk>=0.30.0
+requests>=2.31.0
