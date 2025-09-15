@@ -1,0 +1,15 @@
+# Job: Vectorize data and manage Vector Search
+resources:
+  jobs:
+    job_vectorize:
+      name: {{.project_name}}_job_vectorize
+      tasks:
+        - task_key: vectorize
+          spark_python_task:
+            python_file: ../src/agent/vectorize.py
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12

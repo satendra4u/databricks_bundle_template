@@ -1,0 +1,15 @@
+# Job: Register datasets to UC
+resources:
+  jobs:
+    job_register_datasets:
+      name: {{.project_name}}_job_register_datasets
+      tasks:
+        - task_key: register_datasets
+          spark_python_task:
+            python_file: ../src/agent/register_datasets.py
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12
