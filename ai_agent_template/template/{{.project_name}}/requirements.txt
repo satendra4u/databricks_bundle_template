@@ -1,0 +1,9 @@
+# Python dependencies for the AI Agent bundle
+pyspark>=3.5.0
+mlflow>=2.14.0
+pandas>=2.2.0
+numpy>=1.26.0
+# Databricks SDK for Vector Search and Serving APIs
+databricks-sdk>=0.30.0
+# Optional: HTTP requests utility
+requests>=2.31.0
