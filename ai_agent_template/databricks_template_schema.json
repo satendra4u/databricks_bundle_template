@@ -1,0 +1,58 @@
+{
+  "properties": {
+    "project_name": {
+      "type": "string",
+      "default": "ai_agent_bundle",
+      "description": "What is the name of the AI Agent bundle you want to create?",
+      "order": 1,
+      "pattern": "^[^ .\\/]{3,}$",
+      "pattern_match_failure_message": "Project name must be at least 3 characters long and cannot contain the following characters: \\\"\\\\\\\", \\\"/\\\", \\\" \\\", and \\\".\\\"."
+    },
+    "data_source": {
+      "type": "string",
+      "description": "Primary dataset source for the agent (for example: s3://bucket/path or /Volumes/catalog/schema/table)",
+      "order": 2,
+      "default": "s3://your-bucket/path"
+    },
+    "uc_catalog": {
+      "type": "string",
+      "description": "Unity Catalog catalog name to register datasets and artifacts",
+      "order": 3,
+      "default": "main"
+    },
+    "uc_schema": {
+      "type": "string",
+      "description": "Unity Catalog schema name",
+      "order": 4,
+      "default": "default"
+    },
+    "vector_index_name": {
+      "type": "string",
+      "description": "Vector Search index name for embeddings",
+      "order": 5,
+      "default": "agent_index"
+    },
+    "vector_endpoint_name": {
+      "type": "string",
+      "description": "Vector Search endpoint name",
+      "order": 6,
+      "default": "agent-vs-endpoint"
+    },
+    "llm_model": {
+      "type": "string",
+      "description": "LLM model to use (for example: databricks-meta-llama-3-70b-instruct)",
+      "order": 7,
+      "default": "databricks-meta-llama-3-70b-instruct"
+    },
+    "agent_endpoint_name": {
+      "type": "string",
+      "description": "Model Serving endpoint name for the agent",
+      "order": 8,
+      "default": "ai-agent-endpoint"
+    }
+  },
+  "welcome_message": "\nWelcome! This will create a Databricks AI Agent bundle project.",
+  "success_message": "\nYour AI Agent bundle '{{.project_name}}' has been created.",
+  "min_databricks_cli_version": "v0.240.0",
+  "version": 1
+}
