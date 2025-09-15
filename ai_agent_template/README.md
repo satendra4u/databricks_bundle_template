@@ -13,7 +13,7 @@ It supports:
 # From this repo URL, specify the subdirectory containing the schema
 # The schema file is at: ai_agent_template/databricks_template_schema.json
 
-databricks bundle init https://github.com/<org>/<repo>.git --template-dir ai_agent_template
+databricks bundle init https://github.com/satendra4u/databricks_bundle_template.git --template-dir ai_agent_template
 ```
 
 You will be prompted for:
