@@ -1,0 +1,15 @@
+# Job: Deploy AI Agent Serving Endpoint
+resources:
+  jobs:
+    job_deploy_agent:
+      name: {{.project_name}}_job_deploy_agent
+      tasks:
+        - task_key: deploy_agent
+          spark_python_task:
+            python_file: ../src/agent/serve.py
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12
