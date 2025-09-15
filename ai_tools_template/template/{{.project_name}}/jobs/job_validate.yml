@@ -1,0 +1,15 @@
+# Job: Validate tool functionality and latency
+resources:
+  jobs:
+    job_validate:
+      name: {{.project_name}}_job_validate
+      tasks:
+        - task_key: validate
+          spark_python_task:
+            python_file: ../src/tools/validate.py
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12

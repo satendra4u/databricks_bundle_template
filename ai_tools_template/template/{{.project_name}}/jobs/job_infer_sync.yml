@@ -1,0 +1,15 @@
+# Job: Sync Inference (smoke test)
+resources:
+  jobs:
+    job_infer_sync:
+      name: {{.project_name}}_job_infer_sync
+      tasks:
+        - task_key: infer_sync
+          spark_python_task:
+            python_file: ../src/tools/infer_sync.py
+          job_cluster_key: job_cluster
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            node_type_id: i3.xlarge
+            spark_version: 13.3.x-scala2.12
