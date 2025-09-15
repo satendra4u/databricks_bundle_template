@@ -1,0 +1,60 @@
+{
+  "properties": {
+    "project_name": {
+      "type": "string",
+      "default": "ai_tools_bundle",
+      "description": "What is the name of the AI Tools bundle you want to create?",
+      "order": 1,
+      "pattern": "^[^ .\\/]{3,}$",
+      "pattern_match_failure_message": "Project name must be at least 3 characters long and cannot contain the following characters: \\\"\\\\\\\", \\\"/\\\", \\\" \\\", and \\\".\\\"."
+    },
+    "uc_catalog": {
+      "type": "string",
+      "description": "Unity Catalog catalog name to register artifacts",
+      "order": 2,
+      "default": "main"
+    },
+    "uc_schema": {
+      "type": "string",
+      "description": "Unity Catalog schema name",
+      "order": 3,
+      "default": "default"
+    },
+    "tool_name": {
+      "type": "string",
+      "description": "Primary tool name (function) to expose",
+      "order": 4,
+      "default": "generic_tool"
+    },
+    "endpoint_name": {
+      "type": "string",
+      "description": "Serving endpoint name for the tool",
+      "order": 5,
+      "default": "ai-tools-endpoint"
+    },
+    "latency_target_ms": {
+      "type": "string",
+      "description": "Latency target in milliseconds (e.g., 1000 for <1s)",
+      "order": 6,
+      "default": "1000"
+    },
+    "compute_mode": {
+      "type": "string",
+      "description": "How to serve the tool? serverless (low-latency) or job (batch)",
+      "order": 7,
+      "enum": ["serverless", "job"],
+      "default": "serverless"
+    },
+    "delivery_mode": {
+      "type": "string",
+      "description": "Sync/Async/both delivery modes",
+      "order": 8,
+      "enum": ["sync", "async", "both"],
+      "default": "both"
+    }
+  },
+  "welcome_message": "\nWelcome! This will create a Databricks AI Tools bundle project.",
+  "success_message": "\nYour AI Tools bundle '{{.project_name}}' has been created.",
+  "min_databricks_cli_version": "v0.240.0",
+  "version": 1
+}
