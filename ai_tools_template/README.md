@@ -5,7 +5,7 @@ A template for building and serving generic AI tools on Databricks with both low
 ## Use this template
 From this repo via subdirectory:
 ```bash
-databricks bundle init https://github.com/<org>/<repo>.git --template-dir ai_tools_template
+databricks bundle init https://github.com/satendra4u/databricks_bundle_template.git --template-dir ai_tools_template
 ```
 Or from local path:
 ```bash
